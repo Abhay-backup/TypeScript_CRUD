@@ -1,18 +1,27 @@
+import { isId, isImage, isPrice, isDesc, isName } from "./script.js"
+
+interface displayproduct {
+    id: string,
+    name: string,
+    price: string,
+    description: string,
+    image: any
+}
 
 export class CRUD {
-    isId = document.getElementById('inId') as HTMLInputElement;
-    isName = document.getElementById('inName') as HTMLInputElement;
-    isImage: any = document.getElementById('inImage') as HTMLInputElement;
-    isPrice = document.getElementById('inPrice') as HTMLInputElement;
-    isDesc = document.getElementById('inDescription') as HTMLInputElement;
+    id = isId;
+    name = isName;
+    img = isImage;
+    price = isPrice;
+    description = isDesc;
     setUrl: string = ""
     add() {
 
         // const id = isId.value;
         // let image = isImage.files[0];
-        let product: any[] = [];
+        let product: displayproduct[];
         const fr: any = new FileReader();
-        fr.readAsDataURL(this.isImage.files[0]);
+        fr.readAsDataURL(this.img.files[0]);
         fr.addEventListener('load', () => {
             let url = fr.result;
             if (localStorage.getItem("ProductDetail") == null) {
@@ -23,11 +32,11 @@ export class CRUD {
             }
 
             product.push({
-                id: this.isId.value,
-                name: this.isName.value,
+                id: this.id.value,
+                name: this.name.value,
                 image: url,
-                price: this.isPrice.value,
-                description: this.isDesc.value
+                price: this.price.value,
+                description: this.description.value
             });
 
             //Convert a JavaScript object into a string with JSON.stringify(). now productArray is string and ready to sent to localstorage
@@ -38,9 +47,11 @@ export class CRUD {
 
 
     }
+    //#region showData
+
     showData() {
 
-        let product;
+        let product : displayproduct[];
         if (localStorage.getItem("ProductDetail") == null) {
             product = [];
         }
@@ -65,9 +76,11 @@ export class CRUD {
         document.querySelector("#dataTable1 tbody")!.innerHTML = html;
 
     }
+//#endregion showData
 
-    DeleteData(element: string) {
-        let product;
+    //#region  DeleteData
+    DeleteData(element: number) {
+        let product : displayproduct[];
         if (localStorage.getItem("ProductDetail") == null) {
             product = [];
         }
@@ -82,12 +95,12 @@ export class CRUD {
             this.showData();
         }
     }
+//#endregion DeleteData
 
-
-
-    EditData(index: string) {
+    //#region  EditData
+    EditData(index: number) {
         //  let image = isImage.files ;
-        let product: any;
+        let product: displayproduct[];
         var url = this.setUrl;
         console.log(url);
 
@@ -101,32 +114,32 @@ export class CRUD {
         else {
             product = JSON.parse(localStorage.getItem("ProductDetail")!);
         }
-        this.isId.value = product[index].id;
-        this.isName.value = product[index].name;
+        this.id.value = product[index].id;
+        this.name.value = product[index].name;
 
-        this.isPrice.value = product[index].price;
-        this.isDesc.value = product[index].description;
+        this.price.value = product[index].price;
+        this.description.value = product[index].description;
         document.getElementById("btnInsert")!.style.display = "none";
         document.getElementById("btnUpdate")!.style.display = "block";
 
         document.querySelector("#btnUpdate")!.addEventListener('click', function () {
 
-            let isId = document.getElementById('inId') as HTMLInputElement;
-            let isName = document.getElementById('inName') as HTMLInputElement;
-            let isPrice = document.getElementById('inPrice') as HTMLInputElement;
-            let isDesc = document.getElementById('inDescription') as HTMLInputElement;
-            let isImage = document.getElementById('inImage') as HTMLInputElement;
+            let id = isId;
+            let name = isName
+            let price = isPrice
+            let description = isDesc
+            let image = isImage
             const fr: any = new FileReader();
-            let img = isImage.files as any
+            let img = image.files as any
             fr.readAsDataURL(img[0]);
             fr.addEventListener('load', () => {
                 let url = fr.result;
 
-                product[index].id = isId.value;
-                product[index].name = isName.value;
-                product[index].price = isPrice.value;
-                product[index].image = url
-                product[index].description = isDesc.value;
+                product[index].id = id.value;
+                product[index].name = name.value;
+                product[index].price = price.value;
+                product[index].image = url;
+                product[index].description = description.value;
 
 
                 localStorage.setItem("ProductDetail", JSON.stringify(product)!);
@@ -139,4 +152,5 @@ export class CRUD {
 
 
     }
+    //#endregion EditData
 }

@@ -1,10 +1,9 @@
 import { CRUD } from './add.js';
-//  let isId = document.getElementById('inId')as HTMLInputElement;
-//  let isName = document.getElementById('inName')as HTMLInputElement;
-//  let isImage:any = document.getElementById('inImage');
-//  let isPrice = document.getElementById('inPrice')as HTMLInputElement;
-//  let isDesc = document.getElementById('inDescription')as HTMLInputElement;
-let isImage = document.getElementById('inImage');
+export let isId = document.getElementById('inId');
+export let isName = document.getElementById('inName');
+export let isPrice = document.getElementById('inPrice');
+export let isDesc = document.getElementById('inDescription');
+export let isImage = document.getElementById('inImage');
 var opt = new CRUD();
 opt.showData();
 const del = document.querySelectorAll('.delete');

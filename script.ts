@@ -1,10 +1,10 @@
 import { CRUD } from './add.js';
-//  let isId = document.getElementById('inId')as HTMLInputElement;
-//  let isName = document.getElementById('inName')as HTMLInputElement;
-//  let isImage:any = document.getElementById('inImage');
-//  let isPrice = document.getElementById('inPrice')as HTMLInputElement;
-//  let isDesc = document.getElementById('inDescription')as HTMLInputElement;
-let isImage = document.getElementById('inImage') as HTMLInputElement;
+
+ export let isId = document.getElementById('inId')as HTMLInputElement;
+ export let isName = document.getElementById('inName')as HTMLInputElement;
+ export let isPrice = document.getElementById('inPrice')as HTMLInputElement;
+ export let isDesc = document.getElementById('inDescription')as HTMLInputElement;
+ export let isImage:any = document.getElementById('inImage') as HTMLInputElement;
 var opt = new CRUD();
 opt.showData()
 const del: any = document.querySelectorAll('.delete')

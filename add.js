@@ -1,18 +1,20 @@
+import { isId, isImage, isPrice, isDesc, isName } from "./script.js";
 export class CRUD {
     constructor() {
-        this.isId = document.getElementById('inId');
-        this.isName = document.getElementById('inName');
-        this.isImage = document.getElementById('inImage');
-        this.isPrice = document.getElementById('inPrice');
-        this.isDesc = document.getElementById('inDescription');
+        this.id = isId;
+        this.name = isName;
+        this.img = isImage;
+        this.price = isPrice;
+        this.description = isDesc;
         this.setUrl = "";
+        //#endregion EditData
     }
     add() {
         // const id = isId.value;
         // let image = isImage.files[0];
-        let product = [];
+        let product;
         const fr = new FileReader();
-        fr.readAsDataURL(this.isImage.files[0]);
+        fr.readAsDataURL(this.img.files[0]);
         fr.addEventListener('load', () => {
             let url = fr.result;
             if (localStorage.getItem("ProductDetail") == null) {
@@ -22,17 +24,18 @@ export class CRUD {
                 product = JSON.parse(localStorage.getItem("ProductDetail"));
             }
             product.push({
-                id: this.isId.value,
-                name: this.isName.value,
+                id: this.id.value,
+                name: this.name.value,
                 image: url,
-                price: this.isPrice.value,
-                description: this.isDesc.value
+                price: this.price.value,
+                description: this.description.value
             });
             //Convert a JavaScript object into a string with JSON.stringify(). now productArray is string and ready to sent to localstorage
             localStorage.setItem("ProductDetail", JSON.stringify(product));
             location.reload();
         });
     }
+    //#region showData
     showData() {
         let product;
         if (localStorage.getItem("ProductDetail") == null) {
@@ -56,6 +59,8 @@ export class CRUD {
         });
         document.querySelector("#dataTable1 tbody").innerHTML = html;
     }
+    //#endregion showData
+    //#region  DeleteData
     DeleteData(element) {
         let product;
         if (localStorage.getItem("ProductDetail") == null) {
@@ -72,6 +77,8 @@ export class CRUD {
             this.showData();
         }
     }
+    //#endregion DeleteData
+    //#region  EditData
     EditData(index) {
         //  let image = isImage.files ;
         let product;
@@ -84,28 +91,28 @@ export class CRUD {
         else {
             product = JSON.parse(localStorage.getItem("ProductDetail"));
         }
-        this.isId.value = product[index].id;
-        this.isName.value = product[index].name;
-        this.isPrice.value = product[index].price;
-        this.isDesc.value = product[index].description;
+        this.id.value = product[index].id;
+        this.name.value = product[index].name;
+        this.price.value = product[index].price;
+        this.description.value = product[index].description;
         document.getElementById("btnInsert").style.display = "none";
         document.getElementById("btnUpdate").style.display = "block";
         document.querySelector("#btnUpdate").addEventListener('click', function () {
-            let isId = document.getElementById('inId');
-            let isName = document.getElementById('inName');
-            let isPrice = document.getElementById('inPrice');
-            let isDesc = document.getElementById('inDescription');
-            let isImage = document.getElementById('inImage');
+            let id = isId;
+            let name = isName;
+            let price = isPrice;
+            let description = isDesc;
+            let image = isImage;
             const fr = new FileReader();
-            let img = isImage.files;
+            let img = image.files;
             fr.readAsDataURL(img[0]);
             fr.addEventListener('load', () => {
                 let url = fr.result;
-                product[index].id = isId.value;
-                product[index].name = isName.value;
-                product[index].price = isPrice.value;
+                product[index].id = id.value;
+                product[index].name = name.value;
+                product[index].price = price.value;
                 product[index].image = url;
-                product[index].description = isDesc.value;
+                product[index].description = description.value;
                 localStorage.setItem("ProductDetail", JSON.stringify(product));
             });
             document.getElementById("btnInsert").style.display = "none";
